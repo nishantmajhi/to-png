@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AVIF → PNG</title>
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+<header>
+  <h1>To PNG</h1>
+  <p class="subtitle">Runs entirely in your browser. No uploads, no daily limits, no quality loss.</p>
+</header>
+
+<nav class="tabs">
+  <a class="tab-btn" href="/svg">SVG → PNG</a>
+  <a class="tab-btn" href="/webp">WebP → PNG</a>
+  <a class="tab-btn" href="/gif">GIF frame → PNG</a>
+  <a class="tab-btn active" href="/avif">AVIF → PNG</a>
+</nav>
+
+<main>
+
+  <!-- AVIF to PNG -->
+  <section id="tab-avif" class="tab-panel active">
+    <h2>AVIF → PNG</h2>
+    <p class="hint">Static AVIF converts instantly. Animated AVIF plays live so you can capture exactly the moment you want.</p>
+
+    <div class="dropzone" id="avif-dropzone">
+      <input type="file" id="avif-input" accept=".avif,image/avif" hidden />
+      <p>Drop an .avif file here, or <button type="button" class="link-btn" id="avif-browse">browse</button></p>
+    </div>
+
+    <p class="loading" id="avif-loading" hidden>Decoding frames…</p>
+    <p class="hint" id="avif-fallback-note" hidden>Can't split frames in this browser — converting the first frame only.</p>
+
+    <!-- Static path: single-frame AVIF, converts and downloads in one click -->
+    <div class="preview" id="avif-preview" hidden>
+      <canvas id="avif-canvas"></canvas>
+    </div>
+    <button type="button" id="avif-download" class="primary-btn btn-download" hidden>Download PNG</button>
+
+    <!-- Animated path: play it, capture whichever moments you want -->
+    <div id="avif-anim-section" hidden>
+      <p class="badge">ANIMATED AVIF DETECTED</p>
+      <p class="hint">Hit Capture frame anytime while it plays, then pick one to download.</p>
+      <div class="preview">
+        <canvas id="avif-anim-canvas"></canvas>
+      </div>
+      <div class="anim-controls">
+        <button type="button" id="avif-anim-playpause" class="secondary-btn">Pause</button>
+        <button type="button" id="avif-anim-capture" class="primary-btn">Capture frame</button>
+        <button type="button" id="avif-anim-clear" class="secondary-btn btn-capture-all">Capture all frames</button>
+      </div>
+      <div class="frame-grid" id="avif-frame-grid"></div>
+      <button type="button" id="avif-anim-download" class="primary-btn btn-download" hidden>Download PNG</button>
+    </div>
+
+    <p class="error" id="avif-error"></p>
+  </section>
+
+</main>
+
+<script src="/logic.js"></script>
+<script src="/shared.js"></script>
+<script src="/avif.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "to-png",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local SVG, WebP, GIF and AVIF to PNG converter. Converts in the browser; the server only serves files.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test \"tests/**/*.test.js\"",
+    "test:browser": "node tests/browser/run.js",
+    "test:browser:original": "node tests/browser/run.js --original"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "SEE LICENSE IN LICENSE"
+}

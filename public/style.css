@@ -1,0 +1,343 @@
+:root {
+  --bg: #0f1115;
+  --panel: #171a21;
+  --border: #2a2f3a;
+  --text: #e6e8eb;
+  --muted: #8b93a1;
+  --accent: #5b8cff;
+  --accent-hover: #7aa0ff;
+  --error: #ff6b6b;
+  --radius: 10px;
+
+  /* Forces native controls (number spinners, checkboxes, selects,
+     scrollbars, etc.) into their dark variant regardless of the
+     user's OS theme. This is what actually fixes the light-themed
+     number input arrows — a prefers-color-scheme media query only
+     reacts to OS settings, but this site is always dark, so we
+     declare the scheme outright instead of waiting on the OS. */
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+/* .primary-btn / .download-btn (and any future component) set an
+   explicit `display`, which otherwise silently overrides the
+   browser's own `[hidden] { display: none }` rule — author CSS
+   beats the UA stylesheet even without extra specificity. This
+   guarantees the hidden attribute always wins, so JS toggling
+   el.hidden actually hides the element. */
+[hidden] {
+  display: none !important;
+}
+
+/* Buttons/selects/inputs don't inherit the page font by default in
+   most browsers, which is why "Convert" and "Download" looked out
+   of sync even though their CSS rule set the same font-size — the
+   <button> was rendering in the browser's default UI font while the
+   <a> inherited ours. Reset every form control to match. */
+button, select, input, a {
+  font: inherit;
+}
+
+html {
+  /* Firefox: thumb color, track color */
+  scrollbar-color: var(--accent) var(--bg);
+  scrollbar-width: thin;
+}
+
+/* Chrome / Edge / Safari */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--accent);
+  border-radius: 999px;
+  border: 3px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--accent-hover);
+}
+::-webkit-scrollbar-corner {
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  scrollbar-color: var(--accent) var(--bg);
+  scrollbar-width: thin;
+}
+
+header {
+  padding: 32px 24px 16px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0 0 6px;
+  font-size: 1.6rem;
+  letter-spacing: -0.02em;
+}
+
+.subtitle { color: var(--muted); margin: 0; font-size: 0.95rem; }
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 24px 0;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 10px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.tab-btn:hover { color: var(--text); border-color: var(--accent); }
+
+.tab-btn.active {
+  background: var(--accent);
+  color: #0b0d11;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.tab-panel h2 { margin-top: 0; font-size: 1.2rem; }
+
+.hint { color: var(--muted); font-size: 0.88rem; margin-top: -6px; }
+
+.dropzone {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--muted);
+  transition: border-color 0.15s ease, background 0.15s ease;
+  cursor: pointer;
+}
+
+.dropzone.dragover {
+  border-color: var(--accent);
+  background: rgba(91, 140, 255, 0.06);
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: inherit;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 18px;
+  align-items: flex-end;
+}
+
+.controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.controls label.checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+input[type="number"], select {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  width: 110px;
+}
+
+.preview {
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: auto;
+  text-align: center;
+}
+
+.preview canvas {
+  max-width: 100%;
+  background-image:
+    linear-gradient(45deg, #2a2f3a 25%, transparent 25%),
+    linear-gradient(-45deg, #2a2f3a 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #2a2f3a 75%),
+    linear-gradient(-45deg, transparent 75%, #2a2f3a 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+}
+
+.primary-btn {
+  display: inline-block;
+  margin-top: 16px;
+  margin-right: 10px;
+  background: var(--accent);
+  color: #0b0d11;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 0.92rem;
+}
+
+.primary-btn:hover { background: var(--accent-hover); }
+
+.secondary-btn {
+  display: inline-block;
+  margin-top: 16px;
+  margin-right: 10px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.92rem;
+}
+
+.secondary-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.secondary-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.secondary-btn:disabled:hover { border-color: var(--border); color: var(--text); }
+
+.btn-capture-all {
+  background: #22c55e;
+  border-color: #22c55e;
+  color: #052e13;
+}
+.btn-capture-all:hover { background: #16a34a; border-color: #16a34a; color: #052e13; }
+
+.btn-clear-captures {
+  background: #ef4444;
+  border-color: #ef4444;
+  color: #2a0505;
+}
+.btn-clear-captures:hover { background: #dc2626; border-color: #dc2626; color: #2a0505; }
+
+/* Download PNG buttons get their own blue — same family as the page
+   accent, but pulled to the same saturation/lightness range as
+   .btn-capture-all's green and .btn-clear-captures's red so all three
+   "final action" colors read as one consistent set. */
+.btn-download {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: #021431;
+}
+.btn-download:hover { background: #2563eb; border-color: #2563eb; color: #021431; }
+
+.badge {
+  display: inline-block;
+  background: rgba(91, 140, 255, 0.12);
+  color: var(--accent);
+  border: 1px solid rgba(91, 140, 255, 0.35);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin: 20px 0 6px;
+}
+
+.anim-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.error {
+  color: var(--error);
+  font-size: 0.88rem;
+  margin-top: 10px;
+  min-height: 1.2em;
+}
+
+.loading { color: var(--muted); font-size: 0.88rem; }
+
+.frame-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.frame-thumb {
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--panel);
+  position: relative;
+}
+
+.frame-thumb.selected { border-color: var(--accent); }
+
+.frame-thumb canvas {
+  width: 100%;
+  display: block;
+  image-rendering: pixelated;
+}
+
+.frame-thumb .idx {
+  position: absolute;
+  bottom: 2px;
+  right: 4px;
+  font-size: 0.65rem;
+  color: var(--muted);
+  background: rgba(0,0,0,0.6);
+  padding: 0 4px;
+  border-radius: 3px;
+}
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.8rem;
+  padding: 24px;
+}

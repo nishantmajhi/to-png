@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SVG → PNG</title>
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+<header>
+  <h1>To PNG</h1>
+  <p class="subtitle">Runs entirely in your browser. No uploads, no daily limits, no quality loss.</p>
+</header>
+
+<nav class="tabs">
+  <a class="tab-btn active" href="/svg">SVG → PNG</a>
+  <a class="tab-btn" href="/webp">WebP → PNG</a>
+  <a class="tab-btn" href="/gif">GIF frame → PNG</a>
+  <a class="tab-btn" href="/avif">AVIF → PNG</a>
+</nav>
+
+<main>
+
+  <!-- SVG to PNG -->
+  <section id="tab-svg" class="tab-panel active">
+    <h2>SVG → PNG</h2>
+    <p class="hint">Native rendering keeps gradients, filters, and fonts sharp. Animated SVGs can be captured frame-by-frame.</p>
+
+    <div class="dropzone" id="svg-dropzone">
+      <input type="file" id="svg-input" accept=".svg,image/svg+xml" hidden />
+      <p>Drop an .svg file here, or <button type="button" class="link-btn" id="svg-browse">browse</button></p>
+    </div>
+
+    <div class="controls" id="svg-controls" hidden>
+      <label>
+        Output scale
+        <select id="svg-scale">
+          <option value="1">1x (source size)</option>
+          <option value="2" selected>2x</option>
+          <option value="4">4x</option>
+          <option value="8">8x</option>
+        </select>
+      </label>
+      <label>
+        Width (px)
+        <input type="number" id="svg-width" min="1" />
+      </label>
+      <label>
+        Height (px)
+        <input type="number" id="svg-height" min="1" />
+      </label>
+      <label class="checkbox">
+        <input type="checkbox" id="svg-transparent" checked />
+        Transparent background
+      </label>
+    </div>
+
+    <!-- Static path: single button, converts and downloads in one click -->
+    <div class="preview" id="svg-preview" hidden>
+      <canvas id="svg-canvas"></canvas>
+    </div>
+    <button type="button" id="svg-download" class="primary-btn btn-download" hidden>Download PNG</button>
+
+    <!-- Animated path: play it, capture whichever moments you want -->
+    <div id="svg-anim-section" hidden>
+      <p class="badge">ANIMATED SVG DETECTED</p>
+      <p class="hint">Hit Capture frame anytime while it plays, then pick one to download.</p>
+      <div class="preview">
+        <canvas id="svg-anim-canvas"></canvas>
+      </div>
+      <div class="anim-controls">
+        <button type="button" id="svg-anim-playpause" class="secondary-btn">Pause</button>
+        <button type="button" id="svg-anim-capture" class="primary-btn">Capture frame</button>
+        <button type="button" id="svg-anim-clear" class="secondary-btn btn-capture-all">Capture all frames</button>
+      </div>
+      <div class="frame-grid" id="svg-frame-grid"></div>
+      <button type="button" id="svg-anim-download" class="primary-btn btn-download" hidden>Download PNG</button>
+    </div>
+
+    <p class="error" id="svg-error"></p>
+  </section>
+
+</main>
+
+<script src="/logic.js"></script>
+<script src="/shared.js"></script>
+<script src="/svg.js"></script>
+</body>
+</html>

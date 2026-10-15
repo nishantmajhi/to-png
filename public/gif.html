@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GIF frame → PNG</title>
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+<header>
+  <h1>To PNG</h1>
+  <p class="subtitle">Runs entirely in your browser. No uploads, no daily limits, no quality loss.</p>
+</header>
+
+<nav class="tabs">
+  <a class="tab-btn" href="/svg">SVG → PNG</a>
+  <a class="tab-btn" href="/webp">WebP → PNG</a>
+  <a class="tab-btn active" href="/gif">GIF frame → PNG</a>
+  <a class="tab-btn" href="/avif">AVIF → PNG</a>
+</nav>
+
+<main>
+
+  <!-- GIF frame to PNG -->
+  <section id="tab-gif" class="tab-panel active">
+    <h2>GIF frame → PNG</h2>
+    <p class="hint">Decodes every frame client-side. Animated GIFs play live so you can capture exactly the moment you want.</p>
+
+    <div class="dropzone" id="gif-dropzone">
+      <input type="file" id="gif-input" accept=".gif,image/gif" hidden />
+      <p>Drop a .gif file here, or <button type="button" class="link-btn" id="gif-browse">browse</button></p>
+    </div>
+
+    <p class="loading" id="gif-loading" hidden>Decoding frames…</p>
+
+    <!-- Static path: single-frame GIF, converts and downloads in one click -->
+    <div class="preview" id="gif-preview" hidden>
+      <canvas id="gif-canvas"></canvas>
+    </div>
+    <button type="button" id="gif-download" class="primary-btn btn-download" hidden>Download PNG</button>
+
+    <!-- Animated path: play it, capture whichever moments you want -->
+    <div id="gif-anim-section" hidden>
+      <p class="badge">ANIMATED GIF DETECTED</p>
+      <p class="hint">Hit Capture frame anytime while it plays, then pick one to download.</p>
+      <div class="preview">
+        <canvas id="gif-anim-canvas"></canvas>
+      </div>
+      <div class="anim-controls">
+        <button type="button" id="gif-anim-playpause" class="secondary-btn">Pause</button>
+        <button type="button" id="gif-anim-capture" class="primary-btn">Capture frame</button>
+        <button type="button" id="gif-anim-clear" class="secondary-btn btn-capture-all">Capture all frames</button>
+      </div>
+      <div class="frame-grid" id="gif-frame-grid"></div>
+      <button type="button" id="gif-anim-download" class="primary-btn btn-download" hidden>Download PNG</button>
+    </div>
+
+    <p class="error" id="gif-error"></p>
+  </section>
+
+</main>
+
+<!-- Pure-JS GIF decoder (no server dependency). Vendored locally, see /vendor/gif-decoder.js -->
+<script src="/vendor/gif-decoder.js"></script>
+<script src="/logic.js"></script>
+<script src="/shared.js"></script>
+<script src="/gif.js"></script>
+</body>
+</html>
